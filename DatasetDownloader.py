@@ -6,6 +6,7 @@ import numpy as np
 from pydub import AudioSegment
 import librosa
 import os
+import pandas as pd
 
 
 def download_bird_dataset(query):
@@ -41,7 +42,7 @@ def download_bird_dataset(query):
             f.write("{}\n".format(item))
 
     # Get all soundfiles
-    os.system('wget -P ' + mp3Folder + ' --trust-server-names -i xc-noca-urls.txt')
+    os.system('wget -P ' + mp3Folder + ' --trust-server-names -i' + dataFolder + 'xc-noca-urls.txt')
 
     # --------------------------------------------------------------------------------------------------
 
@@ -82,6 +83,8 @@ def download_bird_dataset(query):
             for i in range(addeditems):
                 y_norm[:-i] = 0.
 
+        y_norm.resize((220500,), refcheck=False)
+
         index = new_list.index(file)
         arrayPath = arrayFolder + str(index)
 
@@ -96,8 +99,33 @@ def download_bird_dataset(query):
     for file in arraylist:
         freq_array = np.load(file)
         file_index = arraylist.index(file)
-        summery_array[file_index-1] = freq_array;
+        summery_array[file_index - 1] = freq_array;
 
-    np.save( arrayFolder + "summery_array", summery_array)
+    np.save(arrayFolder + "summery_array", summery_array)
 
 
+def get_dataframe(query, label_id):
+    import pandas as pd
+
+    dataFolder = "Data/" + query.replace("%20", "_") + "/"
+    arrayFolder = dataFolder + "arrays/"
+
+    numpy_data = np.load(arrayFolder + "summery_array.npy")
+
+    df = pd.DataFrame(numpy_data)
+    df['label'] = label_id
+
+    return df
+
+
+def get_concat_dataframe(query_list):
+    result = pd.DataFrame()
+
+    label_id = 0
+
+    for query in query_list:
+        df = get_dataframe(query, label_id)
+        result = result.append(df)
+        label_id += 1
+
+    return result
