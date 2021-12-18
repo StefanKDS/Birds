@@ -54,7 +54,7 @@ model.add(Dropout(0.5))
 model.add(Dense(2, activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer='Adam', metrics=['accuracy'])
 
-history = model.fit(X_train, y_train, batch_size=2, epochs=3, validation_data=(X_test, y_test))
+history = model.fit(X_train, y_train, batch_size=2, epochs=2, validation_data=(X_test, y_test))
 
 np.save('Auswertung/history.npy', history.history)
 model.save('Auswertung/model')
