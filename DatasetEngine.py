@@ -104,7 +104,36 @@ def download_bird_dataset(query):
     np.save(arrayFolder + "summery_array", summery_array)
 
 
-def get_dataframe(query, label_id):
+def perpare_mp3_for_prediction(filepath):
+    src = filepath
+    dst = "tmp/tmp2.wav"
+
+    # convert wav to mp3
+    sound = AudioSegment.from_mp3(src)
+    ten_seconds = 10 * 1000
+    first_10_seconds = sound[:ten_seconds]
+    first_10_seconds.export(dst, format="wav")
+
+    y, sr = librosa.load(dst)
+    y_norm = librosa.util.normalize(y)
+
+    addeditems = 220500 - len(y_norm)
+    if addeditems > 0:
+        y_norm.resize((220500,), refcheck=False)
+        for i in range(addeditems):
+            y_norm[:-i] = 0.
+
+    y_norm.resize((220500,), refcheck=False)
+
+    # Remove temp wav file
+    os.remove(dst)
+
+    print(y_norm.shape)
+
+    return y_norm
+
+
+def get_dataframe(query):
     import pandas as pd
 
     dataFolder = "Data/" + query.replace("%20", "_") + "/"
@@ -113,7 +142,7 @@ def get_dataframe(query, label_id):
     numpy_data = np.load(arrayFolder + "summery_array.npy")
 
     df = pd.DataFrame(numpy_data)
-    df['label'] = label_id
+    df['label'] = query.replace("%20", "_")
 
     return df
 
@@ -121,11 +150,8 @@ def get_dataframe(query, label_id):
 def get_concat_dataframe(query_list):
     result = pd.DataFrame()
 
-    label_id = 0
-
     for query in query_list:
-        df = get_dataframe(query, label_id)
+        df = get_dataframe(query)
         result = result.append(df)
-        label_id += 1
 
     return result
