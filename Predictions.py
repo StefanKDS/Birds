@@ -5,7 +5,7 @@ import numpy as np
 
 # Load model
 model = keras.models.load_model('Auswertung/model')
-data = perpare_mp3_for_prediction('Data/Gaviidae/mp3/120507-002lomB.mp3')
+data = perpare_mp3_for_prediction('Data/Gaviidae/preTest/XC681331-Great_Northern_Diver_Skaw_Whalsay_SG_Brambling.mp3')
 #data = perpare_mp3_for_prediction('Data/northern_cardinal/mp3/CardinalKeyWest.mp3')
 
 np_array=np.asarray(data)

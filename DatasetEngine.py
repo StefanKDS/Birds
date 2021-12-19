@@ -7,6 +7,7 @@ from pydub import AudioSegment
 import librosa
 import os
 import pandas as pd
+import shutil
 
 
 def download_bird_dataset(query):
@@ -16,10 +17,12 @@ def download_bird_dataset(query):
     dataFolder = "Data/" + query.replace("%20", "_") + "/"
     mp3Folder = dataFolder + "mp3/"
     arrayFolder = dataFolder + "arrays/"
+    predTestFolder = dataFolder + "preTest/"
 
     os.mkdir(dataFolder)
     os.mkdir(mp3Folder)
     os.mkdir(arrayFolder)
+    os.mkdir(predTestFolder)
 
     filename = wget.download(url, dataFolder + 'recordings.json')
     print(filename)
@@ -48,7 +51,6 @@ def download_bird_dataset(query):
 
     # Extract the frequencies and save them as NPArray
     files = os.listdir(mp3Folder)
-    print(files)
     [os.replace(mp3Folder + file, mp3Folder + file.replace(" ", "_")) for file in files]
 
     # The following line is only needed once if ffmpeg is not part of the PATH variables
@@ -61,7 +63,21 @@ def download_bird_dataset(query):
         new_string = string.replace("\\", "/")
         new_list.append(new_string)
 
-    nbr_of_entries = len(new_list)
+    # Copy 5 entries to /predTest
+    last_elements = new_list[-5:]
+    print(last_elements)
+
+
+    for file in last_elements:
+        shutil.copy(file, predTestFolder)
+        os.remove(file)
+
+    globlist.clear()
+    globlist = glob.glob(mp3Folder + "*.mp3")
+    new_list.clear()
+    for string in globlist:
+        new_string = string.replace("\\", "/")
+        new_list.append(new_string)
 
     # Extract frequencies and save them as np array
     for file in new_list:
