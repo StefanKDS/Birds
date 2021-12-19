@@ -1,25 +1,22 @@
 import os
-
 from sklearn.preprocessing import LabelEncoder
-
 from DatasetEngine import download_bird_dataset, get_concat_dataframe
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import OneHotEncoder
 from keras.layers import Conv1D, GlobalAveragePooling1D, MaxPooling1D
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
 import pandas as pd
 from helper_functions import plot_loss_curves
-import matplotlib.pyplot as plt
 import numpy as np
+import tensorflow as tf
 
 # DOWNLOAD DATASETS
 #download_bird_dataset('northern%20cardinal')
 #download_bird_dataset('Gaviidae')
-#download_bird_dataset('Gavia%20pacifica')
+#download_bird_dataset('Crypturellus%20cinereus')
 
 # GET DATAFRAMES
-train_df = get_concat_dataframe(['northern%20cardinal', 'Gaviidae'])
+train_df = get_concat_dataframe(['northern%20cardinal', 'Gaviidae', 'Crypturellus%20cinereus'])
 
 # shuffle train_df
 from sklearn.utils import shuffle
@@ -31,14 +28,9 @@ data = train_df_shuffeled.drop(["label"], axis=1)
 
 labels_encoded = pd.get_dummies(labels)
 
-#encoder = LabelEncoder()
-#encoder.fit(labels)
-#print(encoder.classes_)
-#np.save('Auswertung/classes.npy', encoder.classes_)
-
-#labels_encoded = enc.transform(labels)#= encoder.transform(labels)
-
-print(labels_encoded)
+encoder = LabelEncoder()
+encoder.fit(labels)
+np.save('Auswertung/classes.npy', encoder.classes_)
 
 # PLOT FREQUENCY
 #plt.plot(data[0], label="Frequency")
@@ -46,6 +38,9 @@ print(labels_encoded)
 
 # SPLIT TRAINING AND VALIDATION DATA
 X_train, X_test, y_train, y_test = train_test_split(data, labels_encoded, test_size=0.3, random_state=42)
+
+X_train = tf.convert_to_tensor(X_train)
+X_test = tf.convert_to_tensor(X_test)
 
 model = Sequential()
 model.add(Conv1D(64, 3, activation='relu', input_shape=(220500,1)))
@@ -55,10 +50,10 @@ model.add(Conv1D(128, 3, activation='relu'))
 model.add(Conv1D(128, 3, activation='relu'))
 model.add(GlobalAveragePooling1D())
 model.add(Dropout(0.5))
-model.add(Dense(2, activation='softmax'))
+model.add(Dense(3, activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer='Adam', metrics=['accuracy'])
 
-history = model.fit(X_train, y_train, batch_size=2, epochs=2, validation_data=(X_test, y_test))
+history = model.fit(X_train, y_train, batch_size=3, epochs=5, validation_data=(X_test, y_test))
 
 np.save('Auswertung/history.npy', history.history)
 model.save('Auswertung/model')
