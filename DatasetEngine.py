@@ -10,6 +10,7 @@ import shutil
 import matplotlib.pyplot as plt
 import librosa.display
 
+
 def downloas_bird_sounds(query):
     # GET ALL FILENAMES AND PATHS OF THE QUERY BIRD
     url = 'https://www.xeno-canto.org/api/2/recordings?query=' + query
@@ -51,9 +52,7 @@ def downloas_bird_sounds(query):
     [os.replace(mp3Folder + file, mp3Folder + file.replace(" ", "_")) for file in files]
 
 
-def download_and_prepare_bird_dataset(query, nbrOfTestSoundsForPrediction):
-    downloas_bird_sounds(query)
-
+def prepare_dataset(query, nbrOfTestSoundsForPrediction):
     dataFolder = "Data/" + query.replace("%20", "_") + "/"
     mp3Folder = dataFolder + "mp3/"
     arrayFolder = dataFolder + "arrays/"
@@ -72,7 +71,6 @@ def download_and_prepare_bird_dataset(query, nbrOfTestSoundsForPrediction):
     # Copy 5 entries to /predTest
     last_elements = new_list[-nbrOfTestSoundsForPrediction:]
     print(last_elements)
-
 
     for file in last_elements:
         shutil.copy(file, predTestFolder)
@@ -116,9 +114,15 @@ def download_and_prepare_bird_dataset(query, nbrOfTestSoundsForPrediction):
     for file in arraylist:
         data = np.load(file)
         label = query.replace("%20", "_")
-        extracted_features.append([data,label])
+        extracted_features.append([data, label])
 
     np.save(arrayFolder + "summery_array", extracted_features)
+
+
+def download_and_prepare_bird_dataset(query, nbrOfTestSoundsForPrediction):
+    downloas_bird_sounds(query)
+    prepare_dataset(query, nbrOfTestSoundsForPrediction)
+
 
 def show_spectogram_for_mp3(filepath):
     src = filepath
@@ -150,6 +154,7 @@ def show_spectogram_for_mp3(filepath):
     fig.colorbar(img, ax=ax, format='%+2.0f dB')
     ax.set(title='Mel-frequency spectrogram')
     plt.show()
+
 
 def perpare_mp3_for_prediction(filepath):
     src = filepath
