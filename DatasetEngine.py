@@ -12,6 +12,12 @@ import librosa.display
 
 
 def downloas_bird_sounds(query):
+    """
+        Downloads the bird sounds from www.xeno-canto.org
+
+        param:
+          query: Name of the bird. Blank space with %20
+    """
     # GET ALL FILENAMES AND PATHS OF THE QUERY BIRD
     url = 'https://www.xeno-canto.org/api/2/recordings?query=' + query
 
@@ -53,6 +59,14 @@ def downloas_bird_sounds(query):
 
 
 def prepare_dataset(query, nbrOfTestSoundsForPrediction):
+    """
+        Prepares the dataset for using in model
+
+        :param
+        query: Name of the bird. Blank space with %20
+        nbrOfTestSoundsForPrediction: Number of sounds copied to a
+        seperate folder for later predictions
+    """
     dataFolder = "Data/" + query.replace("%20", "_") + "/"
     mp3Folder = dataFolder + "mp3/"
     arrayFolder = dataFolder + "arrays/"
@@ -120,11 +134,25 @@ def prepare_dataset(query, nbrOfTestSoundsForPrediction):
 
 
 def download_and_prepare_bird_dataset(query, nbrOfTestSoundsForPrediction):
+    """
+        Downloads & prepares the dataset for using in model
+
+        :param
+        query: Name of the bird. Blank space with %20
+        nbrOfTestSoundsForPrediction: Number of sounds copied to a
+        seperate folder for later predictions
+    """
     downloas_bird_sounds(query)
     prepare_dataset(query, nbrOfTestSoundsForPrediction)
 
 
 def show_spectogram_for_mp3(filepath):
+    """
+        Shows the spectogram of a given mp3 path
+
+        :param
+        filepath: The filepath of the mp3
+    """
     src = filepath
     dst = "tmp/tmp.wav"
 
@@ -157,6 +185,12 @@ def show_spectogram_for_mp3(filepath):
 
 
 def perpare_mp3_for_prediction(filepath):
+    """
+        Prepares the given mp3 for prediction
+
+        :param
+        filepath: The filepath of the mp3
+    """
     src = filepath
     dst = "tmp/tmp2.wav"
 
