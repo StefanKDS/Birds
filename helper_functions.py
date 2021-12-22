@@ -190,6 +190,12 @@ def plot_loss_curves(history):
     plt.show()
 
 
+def launchTensorBoard(log_dir):
+    import os
+    os.system('tensorboard --logdir=' + log_dir)
+    return
+
+
 def compare_historys(original_history, new_history, initial_epochs=5):
     """
     Compares two TensorFlow model History objects.
