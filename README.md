@@ -11,8 +11,8 @@ First you have to get and prepare the datasets. This can be done with the functi
 As parameter you give him the name of the species in query form of the xeno API.
 
 E.g.:  
-download_bird_dataset('northern%20cardinal')
-download_bird_dataset('Gaviidae')
+download_and_prepare_bird_dataset('northern%20cardinal', 5)
+download_and_prepare_bird_dataset('Gaviidae', 5)
 
 This can take a while...
 
