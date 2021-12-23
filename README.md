@@ -29,12 +29,12 @@ And then the magic starts.......
 
 Man, it's so easy....
 
-from tensorflow import keras
-from DatasetEngine import perpare_mp3_for_prediction
+from tensorflow import keras  
+from DatasetEngine import perpare_mp3_for_prediction  
 
-model = keras.models.load_model('Auswertung/model')
-data = perpare_mp3_for_prediction('Data/Gaviidae/mp3/120507-002lomB.mp3')
+model = keras.models.load_model('Auswertung/model')  
+data = perpare_mp3_for_prediction('Data/Gaviidae/mp3/120507-002lomB.mp3')  
 
-pred = model.predict(data)
+pred = model.predict(data)  
 
 # That's all folks
