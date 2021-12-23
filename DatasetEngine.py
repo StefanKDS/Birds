@@ -163,25 +163,24 @@ def show_spectogram_for_mp3(filepath):
     first_10_seconds.export(dst, format="wav")
 
     y, sr = librosa.load(dst)
-    y_norm = librosa.util.normalize(y)
+    librosa.util.fix_length(y, 220500)
 
-    # x-axis has been converted to time using our sample rate.
-    # matplotlib plt.plot(y), would output the same figure, but with sample
-    # number on the x-axis instead of seconds
-    plt.figure(figsize=(14, 5))
-    librosa.display.waveplot(y_norm, sr=sr)
-    plt.show
+    # SHOW SAVE
+    fig, ax = plt.subplots(nrows=3, sharex=True)
+    librosa.display.waveshow(y, sr=sr, ax=ax[0])
+    ax[0].set(title='Wave')
 
-    S = librosa.feature.melspectrogram(y=y_norm, sr=sr)
+    # SHOW SPEC
+    D = librosa.amplitude_to_db(np.abs(librosa.stft(y)), ref=np.max)
+    img = librosa.display.specshow(D, y_axis='linear', x_axis='time', sr=sr, ax=ax[1])
+    ax[1].set(title='Linear-frequency power spectrogram')
 
-    print(S.shape)
-
-    fig, ax = plt.subplots()
-    S_dB = librosa.power_to_db(S, ref=np.max)
-    img = librosa.display.specshow(S_dB, x_axis='time', y_axis='mel', sr=sr,fmax=8000, ax=ax)
-    fig.colorbar(img, ax=ax, format='%+2.0f dB')
-    ax.set(title='Mel-frequency spectrogram')
+    mfccs_features = librosa.feature.mfcc(y, sr, n_mfcc=40)
+    img = librosa.display.specshow(mfccs_features, x_axis='time', ax=ax[2])
+    ax[2].set(title='mfccs_features')
     plt.show()
+
+
 
 
 def perpare_mp3_for_prediction(filepath):
