@@ -16,6 +16,12 @@ download_and_prepare_bird_dataset('Gaviidae', 5)
 
 This can take a while...
 
+Here you can see the way from the wavefile to the extracted features:
+
+![Alt text](Doc/Diagrams.jpg?raw=true)
+
+This brings the data down to 1kb and garantues a fast model !
+
 Now you can get the trainingdata with the function 'get_concat_dataframe'. As parameter you give him a list of the 
 species you want him to learn.
 
