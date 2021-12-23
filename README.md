@@ -31,6 +31,11 @@ train_df = get_concat_dataframe(['northern%20cardinal', 'Gaviidae'])
 
 And then the magic starts.......
 
+Here are the accuracy diagrams:
+
+![Alt text](Doc/Diagrams2.jpg?raw=true)
+
+
 # How to make predictions
 
 Man, it's so easy....

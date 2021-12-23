@@ -109,21 +109,24 @@ def prepare_dataset(query, nbrOfTestSoundsForPrediction):
         first_10_seconds.export(dst, format="wav")
 
         y, sr = librosa.load(dst)
+
+        # CREATE A FIXED LENGTH
         librosa.util.fix_length(y, 220500)
 
+        # EXTRACT FEATURES
         mfccs_features = librosa.feature.mfcc(y, sr, n_mfcc=40)
         mfccs_scaled_features = np.mean(mfccs_features.T, axis=0)
 
+        # SAVE FEATURES TO FILE
         index = new_list.index(file)
         arrayPath = arrayFolder + str(index)
-
         np.save(arrayPath, mfccs_scaled_features)
 
         # Remove temp wav file
         os.remove(dst)
 
+    # CREATE AN ARRAY OF ALL PICTURE FEATURES AND SAVE IT
     arraylist = glob.glob(arrayFolder + "*.npy")
-
     extracted_features = []
     for file in arraylist:
         data = np.load(file)
@@ -165,7 +168,7 @@ def show_spectogram_for_mp3(filepath):
     y, sr = librosa.load(dst)
     librosa.util.fix_length(y, 220500)
 
-    # SHOW SAVE
+    # SHOW WAVE
     fig, ax = plt.subplots(nrows=3, sharex=True)
     librosa.display.waveshow(y, sr=sr, ax=ax[0])
     ax[0].set(title='Wave')
@@ -175,6 +178,7 @@ def show_spectogram_for_mp3(filepath):
     img = librosa.display.specshow(D, y_axis='linear', x_axis='time', sr=sr, ax=ax[1])
     ax[1].set(title='Linear-frequency power spectrogram')
 
+    # SHOW EXTRACTED FEATURES
     mfccs_features = librosa.feature.mfcc(y, sr, n_mfcc=40)
     img = librosa.display.specshow(mfccs_features, x_axis='time', ax=ax[2])
     ax[2].set(title='mfccs_features')
@@ -200,11 +204,15 @@ def perpare_mp3_for_prediction(filepath):
     first_10_seconds.export(dst, format="wav")
 
     y, sr = librosa.load(dst)
+
+    # FIXED LENGTH
     librosa.util.fix_length(y, 220500)
 
+    # EXTRACT FEATURES
     mfccs_features = librosa.feature.mfcc(y, sr, n_mfcc=40)
     mfccs_scaled_features = np.mean(mfccs_features.T, axis=0)
 
+    # RESHAPE
     mfccs_scaled_features = mfccs_scaled_features.reshape(1, -1)
 
     # Remove temp wav file
