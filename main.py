@@ -35,7 +35,8 @@ tensorboard = create_tensorboard_callback('Auswertung/', 'BirdSoundPrediction')
 callbacks = [tensorboard]
 
 # CREATE AND FIT MODEL
-history = create_and_fit_dense_model(32, 148, callbacks, X_train, X_test, y_train, y_test)
+#history = create_and_fit_dense_model(32, 148, callbacks, X_train, X_test, y_train, y_test)
+history = create_and_fit_cnn_model(32, 148, callbacks, X_train, X_test, y_train, y_test)
 
 # PLOT THE TRAINING CURVES
 plot_loss_curves(history)

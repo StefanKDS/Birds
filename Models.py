@@ -44,7 +44,7 @@ def create_and_fit_cnn_model(batch_size, epochs, callbacks, X_train, X_test, y_t
     model.compile(loss='categorical_crossentropy', optimizer='Adam', metrics=['accuracy'])
 
     # TRAIN THE MODEL
-    history_CNN = model.fit(X_train, y_train, batch_size=32, callbacks=callbacks, epochs=25,
+    history_CNN = model.fit(X_train, y_train, batch_size=batch_size, callbacks=callbacks, epochs=epochs,
                             validation_data=(X_test, y_test))
 
     # SAVE MODEL AND HISTORY_DATA
