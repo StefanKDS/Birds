@@ -3,7 +3,29 @@
 This ML model learns to differentiate between bird species by means of mp3 recordings of the voices.
 The dataset are downloded from the website https://xeno-canto.org/.
 
-The important code you can find in the main.py.
+# What is what ?
+
+###<ins>main.py</ins>
+The complete script to read the data, prepare it, create and fit the model.
+
+###<ins>DatasetEngine.py</ins>
+Load and prepare the Dataset
+
+###<ins>helper_functions.py</ins>
+Some small helpers
+
+###<ins>Models.py</ins>
+Here you can find the different models like CNN or Dense model
+
+###<ins>Predictions.py</ins>
+Make predictions with the prepared models
+
+###<ins>TensorboardView.py</ins>
+Show the histories in Tensorboard
+
+###<ins>TextBox.py</ins>
+Place for experiments
+
 
 # How to train the model
 
