@@ -5,25 +5,25 @@ The dataset are downloded from the website https://xeno-canto.org/.
 
 # What is what ?
 
-###<ins>main.py</ins>
+### <ins>main.py</ins>
 The complete script to read the data, prepare it, create and fit the model.
 
-###<ins>DatasetEngine.py</ins>
+### <ins>DatasetEngine.py</ins>
 Load and prepare the Dataset
 
-###<ins>helper_functions.py</ins>
+### <ins>helper_functions.py</ins>
 Some small helpers
 
-###<ins>Models.py</ins>
+### <ins>Models.py</ins>
 Here you can find the different models like CNN or Dense model
 
-###<ins>Predictions.py</ins>
+### <ins>Predictions.py</ins>
 Make predictions with the prepared models
 
-###<ins>TensorboardView.py</ins>
+### <ins>TensorboardView.py</ins>
 Show the histories in Tensorboard
 
-###<ins>TextBox.py</ins>
+### <ins>TextBox.py</ins>
 Place for experiments
 
 
