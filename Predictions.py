@@ -8,8 +8,9 @@ import numpy as np
 model_CNN = keras.models.load_model('Auswertung/model_CNN')
 
 #data = perpare_mp3_for_prediction('Data/Gaviidae/preTest/XC680885-GAVSTE2021-07-14-0644-TOLK-c-m.mp3')
-#data = perpare_mp3_for_prediction('Data/northern_cardinal/mp3/CardinalKeyWest.mp3')
+#data = perpare_mp3_for_prediction('Data/northern_cardinal/preTest/XC677300-NOCA_SGC_Sep_28_2021.mp3')
 #data = perpare_mp3_for_prediction('Data/Crypturellus_cinereus/mp3/Cinereous_tinamou1.mp3')
+#data = perpare_mp3_for_prediction('Data/Cisticola_juncidis/preTest/XC733052-20220617_0712_cisticole.mp3')
 
 # Make a prediction
 predArray = model_CNN.predict(data)

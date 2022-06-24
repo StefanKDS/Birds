@@ -4,7 +4,7 @@ from keras.layers import Dense, Dropout, Activation
 from keras.layers import Conv1D, MaxPooling1D, GlobalAveragePooling1D
 
 
-def create_and_fit_dense_model(batch_size, epochs, callbacks, X_train, X_test, y_train, y_test):
+def create_and_fit_dense_model(number_of_datasets, batch_size, epochs, callbacks, X_train, X_test, y_train, y_test):
     # BUILD THE MODEL
     model = Sequential()
     model.add(Dense(100, input_shape=(40,)))
@@ -16,7 +16,7 @@ def create_and_fit_dense_model(batch_size, epochs, callbacks, X_train, X_test, y
     model.add(Dense(100))
     model.add(Activation('relu'))
     model.add(Dropout(0.5))
-    model.add(Dense(3, activation='softmax'))
+    model.add(Dense(number_of_datasets, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='Adam', metrics=['accuracy'])
 
     # TRAIN THE MODEL
@@ -30,17 +30,17 @@ def create_and_fit_dense_model(batch_size, epochs, callbacks, X_train, X_test, y
     return history
 
 
-def create_and_fit_cnn_model(batch_size, epochs, callbacks, X_train, X_test, y_train, y_test):
+def create_and_fit_cnn_model(number_of_datasets, batch_size, epochs, callbacks, X_train, X_test, y_train, y_test):
     # BUILD THE MODEL
     model = Sequential()
-    model.add(Conv1D(64, 3, activation='relu', input_shape=(40, 1)))
-    model.add(Conv1D(64, 3, activation='relu'))
-    model.add(MaxPooling1D(3))
-    model.add(Conv1D(128, 3, activation='relu'))
-    model.add(Conv1D(128, 3, activation='relu'))
+    model.add(Conv1D(64, number_of_datasets, activation='relu', input_shape=(40, 1)))
+    model.add(Conv1D(64, number_of_datasets, activation='relu'))
+    model.add(MaxPooling1D(number_of_datasets))
+    model.add(Conv1D(128, number_of_datasets, activation='relu'))
+    model.add(Conv1D(128, number_of_datasets, activation='relu'))
     model.add(GlobalAveragePooling1D())
     model.add(Dropout(0.5))
-    model.add(Dense(3, activation='sigmoid'))
+    model.add(Dense(number_of_datasets, activation='sigmoid'))
     model.compile(loss='categorical_crossentropy', optimizer='Adam', metrics=['accuracy'])
 
     # TRAIN THE MODEL

@@ -12,9 +12,10 @@ from keras.callbacks import ReduceLROnPlateau, EarlyStopping
 #download_and_prepare_bird_dataset('northern%20cardinal', 5)
 #download_and_prepare_bird_dataset('Gaviidae', 5)
 #download_and_prepare_bird_dataset('Crypturellus%20cinereus', 5)
+#download_and_prepare_bird_dataset('Cisticola%20juncidis', 5)
 
 # GET DATAFRAMES
-train_df = get_concat_dataframe(['northern%20cardinal', 'Gaviidae', 'Crypturellus%20cinereus'])
+train_df = get_concat_dataframe(['northern%20cardinal', 'Gaviidae', 'Crypturellus%20cinereus', 'Cisticola%20juncidis'])
 
 data = np.array(train_df['feature'].tolist())
 labels = np.array(train_df['label'].tolist())
@@ -35,8 +36,8 @@ tensorboard = create_tensorboard_callback('Auswertung/', 'BirdSoundPrediction')
 callbacks = [tensorboard]
 
 # CREATE AND FIT MODEL
-#history = create_and_fit_dense_model(32, 148, callbacks, X_train, X_test, y_train, y_test)
-history = create_and_fit_cnn_model(32, 15, callbacks, X_train, X_test, y_train, y_test)
+history = create_and_fit_dense_model(4, 32, 148, callbacks, X_train, X_test, y_train, y_test)
+#history = create_and_fit_cnn_model(4, 32, 15, callbacks, X_train, X_test, y_train, y_test)
 
 # PLOT THE TRAINING CURVES
 plot_loss_curves(history)
